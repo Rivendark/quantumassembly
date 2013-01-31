@@ -7,5 +7,10 @@ public class QuantumAssemblyProxy {
 	@SidedProxy(clientSide = "rivendark.mods.quantumassembly.proxy.QuantumAssemblyProxyClient",
 			serverSide = "rivendark.mods.quantumassembly.proxy.QuantumAssemblyProxy")
 	public static QuantumAssemblyProxy proxy;
+
+	public void registerRenderThings() {
+		
+		
+	}
 	
 }
