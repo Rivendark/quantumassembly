@@ -25,7 +25,7 @@ public class BlockQuantumStorage extends BlockContainer {
 		this.setHardness(5.0F);
 		this.setResistance(150.0F);
 		this.setStepSound(super.soundMetalFootstep);
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setCreativeTab(QuantumAssembly.tabMachine);
 	}
 	
 	@Override
@@ -74,7 +74,6 @@ public class BlockQuantumStorage extends BlockContainer {
 				item.stackSize = 0;
 			}
 		}
-		
 	}
 
 	@SideOnly(Side.CLIENT)
