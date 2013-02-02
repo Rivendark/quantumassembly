@@ -2,7 +2,7 @@ package rivendark.mods.quantumassembly;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import rivendark.mods.quantumassembly.block.BlockQuantumStorageBlock;
+import rivendark.mods.quantumassembly.machines.BlockQuantumStorage;
 import rivendark.mods.quantumassembly.proxy.QuantumAssemblyProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -26,13 +26,13 @@ public class quantumassembly {
 	
 	public static Material QuantumStorageBlock_Material = Material.iron;
 	
-	public static QuantumAssemblyProxy proxy = QuantumAssemblyProxy.proxy;
+	public static QuantumAssemblyProxy proxy;
 	
 	@Init
 	public void load(FMLInitializationEvent event){
 		proxy.registerRenderThings();
 		
-		QuantumStorageBlock = new BlockQuantumStorageBlock
+		QuantumStorageBlock = new BlockQuantumStorage
 				(QuantumStorageBlock_ID, QuantumStorageBlock_TID, QuantumStorageBlock_Material)
 				.setBlockName("QuantumAssemblyBlock");
 		
