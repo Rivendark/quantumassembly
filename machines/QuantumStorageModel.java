@@ -4,12 +4,7 @@
 // Keep in mind that you still need to fill in some blanks
 // - ZeuX
 
-
-
-
-
-
-package rivendark.mods.quantumassembly.core.gfx;
+package rivendark.mods.quantumassembly.machines;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -78,6 +73,15 @@ public class QuantumStorageModel extends ModelBase
     Top.render(f5);
     LeftPole.render(f5);
     RightPole.render(f5);
+  }
+  
+  public void renderModel(float f5){
+	  	Bottom.render(f5);
+	  	Back.render(f5);
+	 	Chest.render(f5);
+	    Top.render(f5);
+	    LeftPole.render(f5);
+	    RightPole.render(f5);
   }
   
   private void setRotation(ModelRenderer model, float x, float y, float z)

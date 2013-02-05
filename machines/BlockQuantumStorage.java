@@ -4,7 +4,6 @@ import java.util.Random;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -18,14 +17,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockQuantumStorage extends BlockContainer {
 
-	public BlockQuantumStorage(int id, Material material) {
-		super(id, material);
+	public BlockQuantumStorage() {
+		super(QuantumAssembly.QuantumStorageBlock_ID, QuantumAssembly.QuantumStorageBlock_TID, Material.iron);
+		
+		//tileClass = class1;
+		
 		this.setTextureFile(QuantumAssembly.blockTextureFile);
 		this.setBlockName("Rivendark_BlockQuantumStorage");
 		this.setHardness(5.0F);
 		this.setResistance(150.0F);
 		this.setStepSound(super.soundMetalFootstep);
 		this.setCreativeTab(QuantumAssembly.tabMachine);
+		this.setRequiresSelfNotify();
 	}
 	
 	@Override
@@ -41,7 +44,7 @@ public class BlockQuantumStorage extends BlockContainer {
 	
 	@Override
 	 public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
-        dropItems(world, x, y, z);
+       // dropItems(world, x, y, z);
         super.breakBlock(world, x, y, z, par5, par6);
 	}
 	
@@ -85,4 +88,20 @@ public class BlockQuantumStorage extends BlockContainer {
 	public TileEntity createNewTileEntity(World var1) {
 		return new TileQuantumStorage();
 	}
+	
+	public TileEntity getBlockEntity(){
+			return new TileQuantumStorage();
+	}
+	
+	public int getRenderType(){
+		return QuantumAssembly.QuantumStorageBlock_RID;
+	}
+	
+	public boolean isQpaqueCube(){
+		return false;
+	}
+	
+	public boolean renderAsNormalBlock(){
+		return false;
+	}	
 }

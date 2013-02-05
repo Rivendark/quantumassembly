@@ -3,12 +3,16 @@ package rivendark.mods.quantumassembly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import rivendark.mods.quantumassembly.core.QuantumAssemblyMachineTab;
 import rivendark.mods.quantumassembly.core.QuantumAssemblyPacketHandler;
 import rivendark.mods.quantumassembly.core.QuantumAssemblyPacketHandlerClient;
 import rivendark.mods.quantumassembly.core.QuantumAssemblyProxy;
 import rivendark.mods.quantumassembly.machines.BlockQuantumStorage;
+import rivendark.mods.quantumassembly.machines.ItemBlockQuantumStorage;
+import rivendark.mods.quantumassembly.machines.TileQuantumStorage;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -23,7 +27,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 )
 @NetworkMod(
 	clientSideRequired = true, 
-	serverSideRequired = false,
+	serverSideRequired = false/*,
 	clientPacketHandlerSpec = @SidedPacketHandler(
 		channels = {"QuantumAssemblyGeneral"},
 		packetHandler = QuantumAssemblyPacketHandlerClient.class
@@ -31,7 +35,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 	serverPacketHandlerSpec = @SidedPacketHandler(
 		channels = {},
 		packetHandler = QuantumAssemblyPacketHandler.class
-	)
+	)*/
 )
 
 public class QuantumAssembly {
@@ -43,25 +47,32 @@ public class QuantumAssembly {
 	
 	public static String blockTextureFile = "/gfx/BlankSheet.png";
 	
-	public static Block QuantumStorageBlock;
+	public static int QuantumStorageBlock_ID = 250;
 	
-	public static int QuantumStorageBlock_ID = 2200;
+	public static int QuantumStorageBlock_IID = -6;
 		
 	public static int QuantumStorageBlock_TID = 0;
 	
+	public static int QuantumStorageBlock_RID;
+	
 	public static Material QuantumStorageBlock_Material = Material.iron;
+	
+	public static Block QuantumStorageBlock = new BlockQuantumStorage();
+	
+	//public static Item QuantumStorageItemBlock = (new ItemBlockQuantumStorage(QuantumStorageBlock_IID, QuantumStorageBlock)
+			//.setItemName("ItemQuantumStorageBlock"));
 	
 	public static QuantumAssemblyProxy proxy;
 	
 	@Init
 	public void load(FMLInitializationEvent event){
-		NetworkRegistry.instance().registerGuiHandler(this, proxy);
+		//NetworkRegistry.instance().registerGuiHandler(this, proxy);
 		proxy.registerBlocks();
+		//proxy.registerTiles();
 		proxy.addNames();
 		proxy.addRecipes();
 		proxy.registerRenderThings();
-		
-		QuantumStorageBlock = new BlockQuantumStorage(QuantumStorageBlock_ID, QuantumStorageBlock_Material);
+	
 		QuantumStorageBlock.getBlockTextureFromSide(0);
 		
 	}

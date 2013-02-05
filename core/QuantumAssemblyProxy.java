@@ -10,8 +10,8 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class QuantumAssemblyProxy implements IGuiHandler {
 	
-	@SidedProxy(clientSide = "rivendark.mods.quantumassembly.proxy.QuantumAssemblyProxyClient",
-			serverSide = "rivendark.mods.quantumassembly.proxy.QuantumAssemblyProxy")
+	@SidedProxy(clientSide = "rivendark.mods.quantumassembly.core.QuantumAssemblyProxyClient",
+			serverSide = "rivendark.mods.quantumassembly.core.QuantumAssemblyProxy")
 	public static QuantumAssemblyProxy proxy;
 
 	public void registerRenderThings() {
