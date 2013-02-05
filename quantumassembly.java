@@ -41,7 +41,7 @@ public class QuantumAssembly {
 	public static CreativeTabs tabMachine = new QuantumAssemblyMachineTab(CreativeTabs.getNextID(), 
 			"Rivendark_QuantumAssemblyMachineTab");
 	
-	public static String blockTextureFile = "/PathToTextureFile";
+	public static String blockTextureFile = "/gfx/BlankSheet.png";
 	
 	public static Block QuantumStorageBlock;
 	
