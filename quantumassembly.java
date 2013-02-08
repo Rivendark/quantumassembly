@@ -2,23 +2,24 @@ package rivendark.mods.quantumassembly;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import rivendark.mods.quantumassembly.core.QuantumAssemblyMachineTab;
-import rivendark.mods.quantumassembly.core.QuantumAssemblyPacketHandler;
-import rivendark.mods.quantumassembly.core.QuantumAssemblyPacketHandlerClient;
 import rivendark.mods.quantumassembly.core.QuantumAssemblyProxy;
 import rivendark.mods.quantumassembly.machines.BlockQuantumStorage;
-import rivendark.mods.quantumassembly.machines.ItemBlockQuantumStorage;
+import rivendark.mods.quantumassembly.machines.QuantumAssemblyBlockRenderer;
+import rivendark.mods.quantumassembly.machines.QuantumAssemblyTileEntityRenderer;
 import rivendark.mods.quantumassembly.machines.TileQuantumStorage;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(
 	modid = "rivendark_quantumassembly",
@@ -39,6 +40,12 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 )
 
 public class QuantumAssembly {
+	@SidedProxy(
+		clientSide = "rivendark.mods.quantumassembly.core.QuantumAssemblyProxyClient",
+		serverSide = "rivendark.mods.quantumassembly.core.QuantumAssemblyProxy"
+	)
+	public static QuantumAssemblyProxy proxy;
+	
 	@Instance("quantumassembly")
 	public static QuantumAssembly instance;
 	
@@ -53,28 +60,44 @@ public class QuantumAssembly {
 		
 	public static int QuantumStorageBlock_TID = 0;
 	
-	public static int QuantumStorageBlock_RID;
+	public static int QuantumAssembly_RID;
 	
 	public static Material QuantumStorageBlock_Material = Material.iron;
 	
-	public static Block QuantumStorageBlock = new BlockQuantumStorage();
-	
-	//public static Item QuantumStorageItemBlock = (new ItemBlockQuantumStorage(QuantumStorageBlock_IID, QuantumStorageBlock)
-			//.setItemName("ItemQuantumStorageBlock"));
-	
-	public static QuantumAssemblyProxy proxy;
+	public static Block QuantumStorageBlock = new BlockQuantumStorage(
+			QuantumStorageBlock_ID,
+			QuantumAssembly_RID,
+			TileQuantumStorage.class
+			)
+		.setBlockName("QuantumStorageBlock")
+		.setRequiresSelfNotify()
+		.setCreativeTab(tabMachine)
+		.setHardness(4.5F)
+		.setResistance(150F);
 	
 	@Init
 	public void load(FMLInitializationEvent event){
-		//NetworkRegistry.instance().registerGuiHandler(this, proxy);
-		proxy.registerBlocks();
-		//proxy.registerTiles();
-		proxy.addNames();
-		proxy.addRecipes();
-		proxy.registerRenderThings();
-	
-		QuantumStorageBlock.getBlockTextureFromSide(0);
+		RenderingRegistry.registerBlockHandler(new QuantumAssemblyBlockRenderer());
+		QuantumAssembly_RID = RenderingRegistry.getNextAvailableRenderId();
+		//proxy.registerRenderThings();
 		
+		proxy.registerTileEntitySpecialRenderer(new TileQuantumStorage());
+		
+		GameRegistry.registerBlock(QuantumStorageBlock, "BlockQuantumStorageUnit");
+		GameRegistry.registerTileEntity(TileQuantumStorage.class, "TileQuantumStorageUnit");
+		
+		LanguageRegistry.addName(QuantumStorageBlock, "Quantum Storage Unit");
+		
+	}
+	
+	public void renderInvBlock(RenderBlocks var1, Block var2, int var3, int var4)
+	{
+		renderInvBlock(var1, var2, var3, var4);
+
+		if (var2 == QuantumStorageBlock)
+		{
+			TileEntityRenderer.instance.renderTileEntityAt(new TileQuantumStorage(), 0.0D, 0.0D, 0.0D, 0.0F);
+		}
 	}
 }
 /* Note to self, Block IDs 2200 - 2300, Item IDs 6200, 6400 */

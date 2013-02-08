@@ -4,12 +4,14 @@ import java.util.Random;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import rivendark.mods.quantumassembly.QuantumAssembly;
 import cpw.mods.fml.relauncher.Side;
@@ -17,11 +19,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockQuantumStorage extends BlockContainer {
 
-	public BlockQuantumStorage() {
-		super(QuantumAssembly.QuantumStorageBlock_ID, QuantumAssembly.QuantumStorageBlock_TID, Material.iron);
-		
-		//tileClass = class1;
-		
+	public BlockQuantumStorage(int ID, int RID, Class class1) {
+		super(ID, RID, Material.iron);
 		this.setTextureFile(QuantumAssembly.blockTextureFile);
 		this.setBlockName("Rivendark_BlockQuantumStorage");
 		this.setHardness(5.0F);
@@ -29,6 +28,8 @@ public class BlockQuantumStorage extends BlockContainer {
 		this.setStepSound(super.soundMetalFootstep);
 		this.setCreativeTab(QuantumAssembly.tabMachine);
 		this.setRequiresSelfNotify();
+		this.setLightOpacity(1);
+		this.isOpaqueCube();
 	}
 	
 	@Override
@@ -38,7 +39,7 @@ public class BlockQuantumStorage extends BlockContainer {
 		if(tileEntity == null || player.isSneaking()){
 			return false;
 		}
-		player.openGui(QuantumAssembly.instance, 0, world, x, y, z);
+		//player.openGui(QuantumAssembly.instance, 0, world, x, y, z);
 		return true;
 	}
 	
@@ -83,6 +84,40 @@ public class BlockQuantumStorage extends BlockContainer {
 	public int getBlockTextureFromSide(int i){
 		return QuantumAssembly.QuantumStorageBlock_TID;
 	}
+	
+	@Override
+    public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving)
+    {
+		int var6 = world.getBlockId(i, j, k - 1);
+	    int var7 = world.getBlockId(i, j, k + 1);
+	    int var8 = world.getBlockId(i - 1, j, k);
+	    int var9 = world.getBlockId(i + 1, j, k);
+        byte chestFacing = 0;
+        
+        int facing = MathHelper.floor_double((double) ((entityliving.rotationYaw * 4F) / 360F) + 0.5D) & 3;
+        if (facing == 0)
+        {
+            chestFacing = 2;
+        }
+        if (facing == 1)
+        {
+            chestFacing = 5;
+        }
+        if (facing == 2)
+        {
+            chestFacing = 3;
+        }
+        if (facing == 3)
+        {
+            chestFacing = 4;
+        }
+        TileEntity te = world.getBlockTileEntity(i, j, k);
+        if (te != null && te instanceof TileQuantumStorage)
+        {
+            ((TileQuantumStorage) te).setFacing(chestFacing);
+            world.markBlockForUpdate(i, j, k);
+        }
+    }
 
 	@Override
 	public TileEntity createNewTileEntity(World var1) {
@@ -90,18 +125,25 @@ public class BlockQuantumStorage extends BlockContainer {
 	}
 	
 	public TileEntity getBlockEntity(){
-			return new TileQuantumStorage();
+		return new TileQuantumStorage();
 	}
 	
+	@Override
 	public int getRenderType(){
-		return QuantumAssembly.QuantumStorageBlock_RID;
+		return QuantumAssembly.QuantumAssembly_RID;
 	}
 	
+
 	public boolean isQpaqueCube(){
 		return false;
 	}
 	
+	@Override
 	public boolean renderAsNormalBlock(){
 		return false;
-	}	
+	}
+	
+	public boolean isNormalCube(boolean par1){
+		return false;
+	}
 }
