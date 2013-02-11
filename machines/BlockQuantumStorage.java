@@ -29,7 +29,7 @@ public class BlockQuantumStorage extends BlockContainer {
 		this.setCreativeTab(QuantumAssembly.tabMachine);
 		this.setRequiresSelfNotify();
 		this.setLightOpacity(1);
-		this.isOpaqueCube();
+		//this.setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
 	}
 	
 	@Override
@@ -133,10 +133,9 @@ public class BlockQuantumStorage extends BlockContainer {
 		return QuantumAssembly.QuantumAssembly_RID;
 	}
 	
-
-	public boolean isQpaqueCube(){
-		return false;
-	}
+	public boolean isOpaqueCube(){
+        return false;
+    }
 	
 	@Override
 	public boolean renderAsNormalBlock(){
